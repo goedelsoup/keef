@@ -67,7 +67,7 @@ datacenters.each_with_index do |(datacenter, dc_config), index|
     end
 
     # Add Vault
-    if (datacenters.key?("vault"))
+    if (dc_config.key?("vault"))
         vault_host_id = "vault-#{datacenter}"
         vault_host = makeHostName(datacenter, "vault", 1)
         vault_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["vault"], 1)
@@ -157,7 +157,7 @@ datacenters.each_with_index do |(datacenter, dc_config), index|
     end
 
     # Add Traefik
-    if datacenters.key?("traefik")
+    if dc_config.key?("traefik")
         traefik_host_id = "traefik-#{datacenter}"
         traefik_host = makeHostName(datacenter, "traefik", 1)
         traefik_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["traefik"], 1)
@@ -214,7 +214,7 @@ Vagrant.configure("2") do |config|
         end
 
         # Configure Vault
-        if (datacenters.key?("vault"))
+        if (dc_config.key?("vault"))
             config.vm.define "vault-#{datacenter}" do |vault|
                 private_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["vault"], 1)
 
@@ -255,7 +255,7 @@ Vagrant.configure("2") do |config|
         end
 
         # Configure Traefik
-        if datacenters.key?("traefik")
+        if dc_config.key?("traefik")
             config.vm.define "traefik-#{datacenter}" do |traefik|
                 private_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["traefik"], 1)
 
