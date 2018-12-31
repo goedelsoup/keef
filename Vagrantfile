@@ -6,10 +6,10 @@ traefik_http = ENV['TRAEFIK_HTTP_PORT'] || 80
 traefik_https = ENV['TRAEFIK_HTTPS_PORT'] || 443
 traefik_ui = ENV['TRAEFIK_UI_PORT'] || 8080
 
-config = if File.file?('hashistak.yml')
-    YAML.load(File.read('hashistak.yml'))
+config = if File.file?('keef.yml')
+    YAML.load(File.read('keef.yml'))
 else
-    YAML.load(File.read('default.yml'))
+    YAML.load(File.read('examples/keef.yml'))
 end
 
 datacenters = config["datacenters"]
