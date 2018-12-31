@@ -1,0 +1,15 @@
+---
+- name: Install Vault
+  hosts: vault_instances
+  any_errors_fatal: True
+  become: True
+  become_user: root
+  roles:
+    - role: brianshumate.vault
+  post_tasks:
+    - consul:
+        service_name: vault
+        service_port: 8200
+        tags:
+          - traefik.backend=vault
+          - traefik.frontend.rule=PathPrefix:/vault

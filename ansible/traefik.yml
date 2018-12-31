@@ -1,0 +1,8 @@
+---
+- name: Install Traefik
+  hosts: traefik_instances
+  any_errors_fatal: True
+  become: True
+  become_user: root
+  roles:
+    - role: kibatic.traefik

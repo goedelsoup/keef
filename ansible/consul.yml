@@ -1,0 +1,27 @@
+---
+- name: Install Consul
+  hosts: consul_instances
+  any_errors_fatal: True
+  become: True
+  become_user: root
+  pre_tasks:
+    - yum:
+        name: epel-release
+        state: present
+        update_cache: yes
+    - yum:
+        name: python-pip
+        state: present
+        enablerepo: epel
+    - pip:
+        name: python-consul
+  roles:
+    - role: brianshumate.consul
+  post_tasks:
+    - consul:
+        service_name: consul
+        service_port: 8500
+        tags:
+          - traefik.backend=consul
+          - traefik.frontend.rule=PathPrefix:/consul
+

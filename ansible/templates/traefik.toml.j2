@@ -1,0 +1,12 @@
+{#
+    Check traefik sample for full config options
+    https://raw.githubusercontent.com/containous/traefik/master/traefik.sample.toml
+#}
+logLevel = "INFO"
+
+[consulCatalog]
+endpoint = "{{ consul_address }}:8500"
+
+{% raw %}
+frontEndRule = "{{.ServiceName}}.localhost"
+{% endraw %}
