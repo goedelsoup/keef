@@ -69,7 +69,7 @@ By default, the Vagrantfile starts a cluster in the `arlington` datacenter with 
 - 3 Nomad clients
 - 1 Traefik server
 
-This is defined by the default `datacenters.yml` file found [here](./default.yml). Until documentation for configuration syntax is provided, this file can serve as an example to allow you to construct your own network topologies. The `Vagrantfile` will load your configuration from `hashistak.yml` if it is available.
+This is defined by the default configuration file found [here](./default.yml). Until documentation for configuration syntax is provided, this file can serve as an example to allow you to construct your own network topologies. The `Vagrantfile` will load your configuration from `hashistak.yml` if it is available.
 
 ---
 
