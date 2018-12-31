@@ -17,4 +17,4 @@ ansible/roles
 
 *.retry
 
-keef.yml
+./keef.yml
