@@ -85,6 +85,7 @@ A few of these are already implemented for the cluster components:
 - Vault - http://vault.localhost
 
 The Traefik setup will bind to priority ports by default but they can be overriden with environment variables:
+
 |             | Port | Environment Variable |
 |          -: | :--: | :------------------: |
 | HTTP Proxy  | 80   | TRAEFIK_HTTP_PORT    |
