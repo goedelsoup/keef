@@ -6,6 +6,7 @@ A local implementation of the Hashicorp stack
 ---
 
 ## Requirements
+- Ansible
 - Vagrant
 - `vagrant-hosts` Vagrant plugin
 - VirtualBox
@@ -15,6 +16,11 @@ A local implementation of the Hashicorp stack
 ## Running
 
 While the provided `Vagrantfile` is supplied a default Consul encryption key, you will want to likely want to produce your own using the `consul keygen` command. This value can be set with the `CONSUL_RAW_KEY` environment variable.
+
+First you will need to install the necessary Ansible playbooks:
+```bash
+ansible-galaxy install -r requirements.yml
+```
 
 It is easiest to start the VirtualBox instance and provision them in separate steps, particularly due to the attention needed when installing Vault. To start the instances run:
 ```bash
@@ -64,6 +70,10 @@ By default, the Vagrantfile starts a cluster in the `arlington` datacenter with 
 - 1 Traefik server
 
 This is defined by the default `datacenters.yml` file found [here](./default.yml). Until documentation for configuration syntax is provided, this file can serve as an example to allow you to construct your own network topologies. The `Vagrantfile` will load your configuration from `hashistak.yml` if it is available.
+
+---
+
+## Network Routing
 
 ---
 

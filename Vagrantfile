@@ -2,6 +2,10 @@ require 'yaml'
 
 consul_raw_key = ENV['CONSUL_RAW_KEY'] || 'q1JhR11WqBR6tJegMUKK8g=='
 
+traefik_http = ENV['TRAEFIK_HTTP_PORT'] || 80
+traefik_https = ENV['TRAEFIK_HTTPS_PORT'] || 443
+traefik_ui = ENV['TRAEFIK_UI_PORT'] || 8080
+
 config = if File.file?('hashistak.yml')
     YAML.load(File.read('hashistak.yml'))
 else
@@ -41,7 +45,7 @@ datacenters.each_with_index do |(datacenter, dc_config), index|
     (1..dc_config["consul"]["server_nodes"]).each do |consul_index|
         consul_host_id = "consul-#{datacenter}-#{consul_index}"
         consul_host = makeHostName(datacenter, "consul", consul_index)
-        consul_ip = makePrivateIp(dc_config["cidr_segment_ii"], dc_config["consul"], consul_index)
+        consul_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["consul"], consul_index)
 
         consul_group << consul_host_id
         host_map.merge! Hash[consul_ip, consul_host]
@@ -156,7 +160,7 @@ datacenters.each_with_index do |(datacenter, dc_config), index|
     if datacenters.key?("traefik")
         traefik_host_id = "traefik-#{datacenter}"
         traefik_host = makeHostName(datacenter, "traefik", 1)
-        traefik_ip = makePrivateIp(dc_config["cidr_segment_ii"], dc_config["traefik"], 1)
+        traefik_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["traefik"], 1)
 
         consul_group << traefik_host_id
         traefik_group << traefik_host_id
@@ -268,24 +272,28 @@ Vagrant.configure("2") do |config|
         end
 
         config.vm.provision "consul", type: "ansible" do |ansible|
+            ansible.compatibility_mode = "2.0"
             ansible.playbook = "ansible/consul.yml"
             ansible.groups = ansible_groups
             ansible.host_vars = host_vars
         end
 
         config.vm.provision "vault", type: "ansible" do |ansible|
+            ansible.compatibility_mode = "2.0"
             ansible.playbook = "ansible/vault.yml"
             ansible.groups = ansible_groups
             ansible.host_vars = host_vars
         end
 
         config.vm.provision "nomad", type: "ansible" do |ansible|
+            ansible.compatibility_mode = "2.0"
             ansible.playbook = "ansible/nomad.yml"
             ansible.groups = ansible_groups
             ansible.host_vars = host_vars
         end
 
         config.vm.provision "traefik", type: "ansible" do |ansible|
+            ansible.compatibility_mode = "2.0"
             ansible.playbook = "ansible/traefik.yml"
             ansible.groups = ansible_groups
             ansible.host_vars = host_vars
