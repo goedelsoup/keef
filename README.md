@@ -75,6 +75,22 @@ This is defined by the default configuration file found [here](./default.yml). U
 
 ## Network Routing
 
+By default, `hashistak` uses [Traefik](https://traefik.io/) to provide a proxy into the clustered Virtualbox environment. As such, one can utilize the proxy by setting the following tags on a service in Consul:
+- traefik.backend={{ Service name in Consul }}
+- traefik.frontend.rule={{ A Traefik [frontend rule set](https://docs.traefik.io/basics/#frontends) }}
+
+A few of these are already implemented for the cluster components:
+- Consul - http://consul.localhost
+- Nomad - http://nomad.localhost
+- Vault - http://vault.localhost
+
+The Traefik setup will bind to priority ports by default but they can be overriden with environment variables:
+|             | Port | Environment Variable |
+|          -: | :--: | :------------------: |
+| HTTP Proxy  | 80   | TRAEFIK_HTTP_PORT    |
+| HTTPS Proxy | 443  | TRAEFIK_HTTPS_PORT   |
+| Web UI      | 8080 | TRAEFIK_UI_PORT      |
+
 ---
 
 ## Contributing
