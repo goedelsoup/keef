@@ -42,7 +42,7 @@ host_vars = {}
 
 datacenters.each_with_index do |(datacenter, dc_config), index|
     # Add Consul servers
-    (1..dc_config["consul"]["server_nodes"]).each do |consul_index|
+    (1..dc_config["consul"]["count"]).each do |consul_index|
         consul_host_id = "consul-#{datacenter}-#{consul_index}"
         consul_host = makeHostName(datacenter, "consul", consul_index)
         consul_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["consul"], consul_index)
@@ -95,7 +95,7 @@ datacenters.each_with_index do |(datacenter, dc_config), index|
     end
 
     # Add Nomad servers
-    (1..dc_config["nomad_server"]["server_nodes"]).each do |nomad_index|
+    (1..dc_config["nomad_server"]["count"]).each do |nomad_index|
         nomad_host_id = "nomad-#{datacenter}-#{nomad_index}"
         nomad_host = makeHostName(datacenter, "nomad", nomad_index)
         nomad_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["nomad_server"], nomad_index)
@@ -126,7 +126,7 @@ datacenters.each_with_index do |(datacenter, dc_config), index|
     end
 
     # Add Nomad clients
-    (1..dc_config["nomad_client"]["server_nodes"]).each do |nomad_index|
+    (1..dc_config["nomad_client"]["count"]).each do |nomad_index|
         nomad_host_id = "nomad-client-#{datacenter}-#{nomad_index}"
         nomad_host = makeHostName(datacenter, "nomad-client", nomad_index)
         nomad_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["nomad_client"], nomad_index)
@@ -201,7 +201,7 @@ Vagrant.configure("2") do |config|
     datacenters.each_with_index do |(datacenter, dc_config), index|
         
         # Configure Consul server nodes
-        (1..dc_config["consul"]["server_nodes"]).each do |consul_index|
+        (1..dc_config["consul"]["count"]).each do |consul_index|
             config.vm.define "consul-#{datacenter}-#{consul_index}" do |consul|
                 private_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["consul"], consul_index)
 
@@ -227,7 +227,7 @@ Vagrant.configure("2") do |config|
         end
 
         # Configure Nomad server nodes
-        (1..dc_config["nomad_server"]["server_nodes"]).each do |nomad_index|
+        (1..dc_config["nomad_server"]["count"]).each do |nomad_index|
 
             config.vm.define "nomad-#{datacenter}-#{nomad_index}" do |nomad|
                 private_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["nomad_server"], nomad_index)
@@ -241,7 +241,7 @@ Vagrant.configure("2") do |config|
         end
 
         # Configure Nomad client nodes
-        (1..dc_config["nomad_client"]["server_nodes"]).each do |nomad_index|
+        (1..dc_config["nomad_client"]["count"]).each do |nomad_index|
 
             config.vm.define "nomad-client-#{datacenter}-#{nomad_index}" do |nomad|
                 private_ip = makePrivateIp(dc_config["cidr_segment"], dc_config["nomad_client"], nomad_index)

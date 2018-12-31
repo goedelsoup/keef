@@ -1,5 +1,7 @@
 # keef
-A local implementation of the Hashicorp stack
+A single-host, multi-datacenter capable implementation of the Hashicorp stack
+
+Keef is primarily designed for use as a DevOps experimentation environment. While it could be used for local development, its overhead may be too much to handle significant Nomad deployments. If you are using it for local development, you will likely want to run single instances of the Consul and Nomad servers.
 
 *Note: Currently multi-datacenter support for Vault and Traefik is not provided.*
 

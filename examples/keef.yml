@@ -3,18 +3,18 @@ datacenters:
   arlington:
     cidr_segment: "150"
     consul:
-      server_nodes: 3
+      count: 3
       cidr_segment: "150"
       cidr_prefix: "1"
     vault:
       cidr_segment: "150"
       cidr_prefix: "2"
     nomad_server:
-      server_nodes: 3
+      count: 3
       cidr_segment: "150"
       cidr_prefix: "3"
     nomad_client:
-      server_nodes: 3
+      count: 3
       cidr_segment: "150"
       cidr_prefix: "4"
     traefik:
