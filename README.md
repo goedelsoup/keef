@@ -73,7 +73,54 @@ By default, the Vagrantfile starts a cluster in the `arlington` datacenter with 
 - 3 Nomad clients
 - 1 Traefik server
 
-This is defined by the default configuration file found [here](./examples/keef.yml). Until documentation for configuration syntax is provided, this file can serve as an example to allow you to construct your own network topologies. The `Vagrantfile` will load your configuration from `keef.yml` if it is available.
+This is defined by the default configuration file found [here](./examples/keef.yml).
+
+### Configuration Values
+
+### `datacenters`
+
+Each key is interpreted as the datacenter name where the value is a [datacenter dictionary](#datacenter-config) detailing the deployments within that datacenter.
+
+### `datacenter`
+
+A datacenter is a logical separation of deployed units.
+
+#### `consul` - Required
+
+##### `count` - Required - The number of Consul servers to deploy into the datacenter
+##### `cidr_segment` - Required - The 3rd segment of the CIDR block used for assigning Consul IP addresses
+##### `cidr_prefix` - Required - The prefix of the 4th segment of the CIDR block used for assigning Consul IP addresses
+*Note: The current implementation of IP address assignment in Keef will only support 9 instances*
+
+#### `vault`
+
+If no configuration is provided, Vault instances will be colocated on the Consul servers.
+
+##### `count` - The number of Vault servers to deploy into the datacenter
+##### `cidr_segment` - The 3rd segment of the CIDR block used for assigning Vault IP addresses
+##### `cidr_prefix` - The prefix of the 4th segment of the CIDR block used for assigning Vault IP addresses
+*Note: The current implementation of IP address assignment in Keef will only support 9 instances*
+
+#### `nomad_server`
+
+If no configuration is provided, Nomad server instances will be colocated on the Consul servers.
+
+##### `count` - The number of Nomad servers to deploy into the datacenter
+##### `cidr_segment` - The 3rd segment of the CIDR block used for assigning Nomad IP addresses
+##### `cidr_prefix` - The prefix of the 4th segment of the CIDR block used for assigning Nomad IP addresses
+*Note: The current implementation of IP address assignment in Keef will only support 9 instances*
+
+#### `nomad_client` - Required
+
+##### `count` - Required - The number of Nomad clients to deploy into the datacenter
+##### `cidr_segment` - Required - The 3rd segment of the CIDR block used for assigning Nomad IP addresses
+##### `cidr_prefix` - Required - The prefix of the 4th segment of the CIDR block used for assigning Nomad IP addresses
+*Note: The current implementation of IP address assignment in Keef will only support 9 instances*
+
+#### `Traefik` - Required
+
+##### `cidr_segment` - Required - The 3rd segment of the CIDR block used for assigning the Traefik IP address
+##### `cidr_prefix` - Required - The prefix of the 4th segment of the CIDR block used for assigning the Traefik IP address
 
 ---
 
@@ -101,3 +148,11 @@ The Traefik setup will bind to priority ports by default but they can be overrid
 ## Contributing
 
 It's best to open an issue first so to allow for discussion on how a feature may be implemented, but feel free to fork and make pull requests with your contributions!
+
+---
+
+## Acknowlegment
+
+This work is largely a trivial bit of glue and stands on the backs of giants. Many thanks to the following parties:
+- Hashicorp
+- Brian Shumate

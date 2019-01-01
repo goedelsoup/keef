@@ -4,8 +4,20 @@
 #}
 logLevel = "INFO"
 
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+[api]
+  entryPoint = "traefik"
+  dashboard = true
+
+[metrics]
+  [metrics.prometheus]
+  entryPoint = "traefik"
+
 [consulCatalog]
-endpoint = "{{ consul_address }}:8500"
+endpoint = "127.0.0.1:8500"
 
 {% raw %}
 frontEndRule = "{{.ServiceName}}.localhost"

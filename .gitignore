@@ -18,3 +18,4 @@ ansible/roles
 *.retry
 
 ./keef.yml
+./keef.inventory.yml

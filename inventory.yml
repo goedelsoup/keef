@@ -1,0 +1,204 @@
+---
+consul:
+  hosts:
+    consul-arlington-1:
+      consul_node_role: bootstrap
+      consul_datacenter: arlington
+      consul_install_dependencies: false
+      consul_bind_address: 10.150.150.11
+      consul_dnsmasq_enable: true
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+      ansible_host: 10.150.150.11
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/consul-arlington-1/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    consul-arlington-2:
+      consul_node_role: server
+      consul_datacenter: arlington
+      consul_install_dependencies: false
+      consul_bind_address: 10.150.150.12
+      consul_dnsmasq_enable: true
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+      ansible_host: 10.150.150.12
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/consul-arlington-2/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    consul-arlington-3:
+      consul_node_role: server
+      consul_datacenter: arlington
+      consul_install_dependencies: false
+      consul_bind_address: 10.150.150.13
+      consul_dnsmasq_enable: true
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+      ansible_host: 10.150.150.13
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/consul-arlington-3/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    vault-arlington:
+      consul_node_role: client
+      consul_datacenter: arlington
+      consul_install_dependencies: false
+      consul_bind_address: 10.150.150.21
+      consul_dnsmasq_enable: true
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+      ansible_host: 10.150.150.21
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/vault-arlington/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    nomad-client-arlington-1:
+      consul_node_role: client
+      consul_datacenter: arlington
+      consul_install_dependencies: false
+      consul_bind_address: 10.150.150.41
+      consul_dnsmasq_enable: true
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+      ansible_host: 10.150.150.41
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/nomad-client-arlington-1/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    nomad-client-arlington-2:
+      consul_node_role: client
+      consul_datacenter: arlington
+      consul_install_dependencies: false
+      consul_bind_address: 10.150.150.42
+      consul_dnsmasq_enable: true
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+      ansible_host: 10.150.150.42
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/nomad-client-arlington-2/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    nomad-client-arlington-3:
+      consul_node_role: client
+      consul_datacenter: arlington
+      consul_install_dependencies: false
+      consul_bind_address: 10.150.150.43
+      consul_dnsmasq_enable: true
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+      ansible_host: 10.150.150.43
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/nomad-client-arlington-3/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    traefik-arlington:
+      consul_node_role: client
+      consul_datacenter: arlington
+      consul_install_dependencies: false
+      consul_bind_address: 10.150.150.91
+      consul_dnsmasq_enable: true
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+      ansible_host: 10.150.150.91
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/traefik-arlington/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+  vars:
+    consul_install_dependencies: false
+    consul_dnsmasq_enable: true
+    consul_group_name: consul
+vault:
+  hosts:
+    vault-arlington:
+      vault_cluster_name: arlington
+      vault_datacenter: arlington
+      vault_address: 10.150.150.21
+      vault_cluster_addr: http://vault-.arlington.consul:{{ (vault_port | int) + 1
+        }}
+      vault_api_addr: http://vault-.arlington.consul:{{ vault_port }}
+      ansible_host: 10.150.150.21
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/vault-arlington/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+  vars:
+    vault_ui: true
+    vault_iface: eth0
+    vault_group_name: vault
+nomad:
+  hosts:
+    consul-arlington-1:
+      nomad_node_role: server
+      nomad_datacenter: arlington
+      nomad_bind_address: 10.150.150.11
+      nomad_advertise_address: 10.150.150.11
+      nomad_consul_address: 10.150.150.11:8500
+      nomad_vault_address: vault-1.arlington.consul
+      ansible_host: 10.150.150.11
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/consul-arlington-1/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+    consul-arlington-2:
+      nomad_node_role: server
+      nomad_datacenter: arlington
+      nomad_bind_address: 10.150.150.12
+      nomad_advertise_address: 10.150.150.12
+      nomad_consul_address: 10.150.150.12:8500
+      nomad_vault_address: vault-1.arlington.consul
+      ansible_host: 10.150.150.12
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/consul-arlington-2/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+    consul-arlington-3:
+      nomad_node_role: server
+      nomad_datacenter: arlington
+      nomad_bind_address: 10.150.150.13
+      nomad_advertise_address: 10.150.150.13
+      nomad_consul_address: 10.150.150.13:8500
+      nomad_vault_address: vault-1.arlington.consul
+      ansible_host: 10.150.150.13
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/consul-arlington-3/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+    nomad-client-arlington-1:
+      nomad_node_role: client
+      nomad_datacenter: arlington
+      nomad_bind_address: 10.150.150.41
+      nomad_advertise_address: 10.150.150.41
+      nomad_consul_address: 10.150.150.41:8500
+      nomad_vault_address: vault-1.arlington.consul
+      ansible_host: 10.150.150.41
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/nomad-client-arlington-1/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+    nomad-client-arlington-2:
+      nomad_node_role: client
+      nomad_datacenter: arlington
+      nomad_bind_address: 10.150.150.42
+      nomad_advertise_address: 10.150.150.42
+      nomad_consul_address: 10.150.150.42:8500
+      nomad_vault_address: vault-1.arlington.consul
+      ansible_host: 10.150.150.42
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/nomad-client-arlington-2/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+    nomad-client-arlington-3:
+      nomad_node_role: client
+      nomad_datacenter: arlington
+      nomad_bind_address: 10.150.150.43
+      nomad_advertise_address: 10.150.150.43
+      nomad_consul_address: 10.150.150.43:8500
+      nomad_vault_address: vault-1.arlington.consul
+      ansible_host: 10.150.150.43
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/nomad-client-arlington-3/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+  vars:
+    nomad_ports_http: 4646
+    nomad_ports_rpc: 4647
+    nomad_ports_serf: 4648
+    nomad_use_consul: true
+    nomad_group_name: nomad
+traefik:
+  hosts:
+    traefik-arlington:
+      consul_address: 10.150.150.91
+      ansible_host: 10.150.150.91
+      ansible_user: vagrant
+      ansible_ssh_private_key_file: "./.vagrant/machines/traefik-arlington/virtualbox/private_key"
+      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+      consul_raw_key: q1JhR11WqBR6tJegMUKK8g==
+  vars:
+    traefik_template: "./templates/traefik-consul.toml"

@@ -1,6 +1,6 @@
 ---
 - name: Install Consul
-  hosts: consul_instances
+  hosts: consul
   any_errors_fatal: True
   become: True
   become_user: root
@@ -24,4 +24,25 @@
 #         tags:
 #           - traefik.backend=consul-api
 #           - traefik.frontend.rule=PathPrefix:/consul
+- name: Install Nomad
+  hosts: nomad
+  any_errors_fatal: True
+  become: True
+  become_user: root
+  roles:
+    - role: brianshumate.nomad
+  post_tasks:
+    - consul:
+        service_name: nomad
+        service_port: 4646
+        tags:
+          - traefik.backend=nomad
+          - traefik.frontend.rule=PathPrefix:/nomad
+- name: Install Traefik
+  hosts: traefik
+  any_errors_fatal: True
+  become: True
+  become_user: root
+  roles:
+    - role: kibatic.traefik
 

@@ -1,5 +1,4 @@
 ---
-os: centos/7
 datacenters:
   arlington:
     cidr_segment: "150"
@@ -17,3 +16,8 @@ datacenters:
     traefik:
       cidr_segment: "150"
       cidr_prefix: "9"
+    services:
+      - name: nelson
+        image: getnelson/nelson:0.13.0-SNAPSHOT
+        template: templates/consul.tmpl
+        
