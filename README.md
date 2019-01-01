@@ -1,3 +1,5 @@
+[![Gitter](https://img.shields.io/gitter/room/chief-keef/community.svg?colorB=36bc97)](https://gitter.im/chief-keef/community)
+
 # keef
 A single-host, multi-datacenter capable implementation of the Hashicorp stack
 
