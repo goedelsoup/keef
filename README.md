@@ -77,7 +77,7 @@ This is defined by the default configuration file found [here](./examples/keef.y
 
 ## Network Routing
 
-By default, `hashistak` uses [Traefik](https://traefik.io/) to provide a proxy into the clustered Virtualbox environment. As such, one can utilize the proxy by setting the following tags on a service in Consul:
+Keef uses [Traefik](https://traefik.io/) to provide a proxy into the clustered Virtualbox environment. As such, one can utilize the proxy by setting the following tags on a service in Consul:
 - traefik.backend={{ Service name in Consul }}
 - traefik.frontend.rule={{ A Traefik [frontend rule set](https://docs.traefik.io/basics/#frontends) }}
 
