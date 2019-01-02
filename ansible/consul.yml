@@ -1,6 +1,6 @@
 ---
 - name: Install Consul
-  hosts: consul_instances
+  hosts: consul
   any_errors_fatal: True
   become: True
   become_user: root

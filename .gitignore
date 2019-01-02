@@ -17,5 +17,8 @@ ansible/roles
 
 *.retry
 
+./bin
+
 ./keef.yml
-./keef.inventory.yml
+./host_map.yml
+./inventory.yml

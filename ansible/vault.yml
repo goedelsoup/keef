@@ -1,6 +1,6 @@
 ---
 - name: Install Vault
-  hosts: vault_instances
+  hosts: vault
   any_errors_fatal: True
   become: True
   become_user: root

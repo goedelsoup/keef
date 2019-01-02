@@ -1,6 +1,6 @@
 ---
 - name: Install Nomad
-  hosts: nomad_instances
+  hosts: nomad
   any_errors_fatal: True
   become: True
   become_user: root

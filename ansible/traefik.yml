@@ -1,6 +1,6 @@
 ---
 - name: Install Traefik
-  hosts: traefik_instances
+  hosts: traefik
   any_errors_fatal: True
   become: True
   become_user: root

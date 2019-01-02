@@ -17,27 +17,37 @@
         name: python-consul
   roles:
     - role: brianshumate.consul
-#   post_tasks:
-#     - consul:
-#         service_name: consul-api
-#         service_port: 8500
-#         tags:
-#           - traefik.backend=consul-api
-#           - traefik.frontend.rule=PathPrefix:/consul
+- name: Register Consul HTTP
+  hosts: consul
+  tasks:
+    - consul:
+        service_name: consul-ui
+        service_port: 8500
+        # tags:
+        #   - traefik.frontend.rule="Host:localhost;PathPrefix:/nomad"
 - name: Install Nomad
   hosts: nomad
   any_errors_fatal: True
   become: True
   become_user: root
+  vars:
+    pip_install_packages:
+      - name: docker
   roles:
+    - role: geerlingguy.docker
     - role: brianshumate.nomad
-  post_tasks:
+    - role: geerlingguy.java
+      when: "ansible_os_family == 'RedHat'"
+      java_packages:
+        - java-1.8.0-openjdk
+- name: Register Nomad HTTP
+  hosts: nomad
+  tasks:
     - consul:
         service_name: nomad
         service_port: 4646
-        tags:
-          - traefik.backend=nomad
-          - traefik.frontend.rule=PathPrefix:/nomad
+        # tags:
+        #   - traefik.frontend.rule="Host:localhost;PathPrefix:/nomad"
 - name: Install Traefik
   hosts: traefik
   any_errors_fatal: True
@@ -45,4 +55,55 @@
   become_user: root
   roles:
     - role: kibatic.traefik
-
+  post_tasks:
+    - consul:
+        service_name: traefik
+        service_port: 8080
+- name: Install Vault
+  hosts: vault
+  any_errors_fatal: True
+  become: True
+  become_user: root
+  roles:
+    - role: brianshumate.vault
+  post_tasks:
+    - consul:
+        service_name: vault
+        service_port: 8200
+- name: Install Docker Registry
+  hosts: registry
+  any_errors_fatal: True
+  become: True
+  become_user: root
+  pre_tasks:
+    - pip:
+        name: docker
+  roles:
+    - role: geerlingguy.docker
+  post_tasks:
+    - name: Create a Docker Registry container
+      docker_container:
+        name: registry
+        image: registry:2
+        state: started
+        restart: yes
+        ports:
+        - '5000:5000'
+    - consul:
+        service_name: registry
+        service_port: 5000
+    - name: Create a Portainer container
+      docker_container:
+        name: portainer
+        image: portainer/portainer
+        state: started
+        restart: yes
+        recreate: yes
+        ports:
+        - '9000:9000'
+        volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data portainer/portainer
+    - consul:
+        service_name: portainer
+        service_port: 9000
